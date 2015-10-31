@@ -1,3 +1,4 @@
+**.backup
 
 # Eclipse files
 /target/
@@ -6,3 +7,4 @@
 
 .classpath
 .project
+.springBeans
