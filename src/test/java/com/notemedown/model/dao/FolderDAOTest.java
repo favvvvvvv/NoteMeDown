@@ -281,6 +281,15 @@ public class FolderDAOTest {
 		
 		dao.getHibernateTemplate().flush();
 	}
+	
+	@Test(expected = DataIntegrityViolationException.class)
+	public void failWhenFolderIsAParentFolderOfItself() {
+		Folder parentFolder = new Folder("Root folder", (Folder) null);
+		parentFolder.setParentFolder(parentFolder);
+		dao.save(parentFolder);
+		
+		dao.getHibernateTemplate().flush();
+	}
 }
 
 
