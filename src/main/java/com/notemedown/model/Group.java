@@ -54,9 +54,7 @@ public class Group {
 	
 	@Override
 	public int hashCode() {
-		int result = 31;
-		result = 17 * result + name.hashCode();
-		return result;
+		return id == null ? super.hashCode() : id.hashCode();
 	}
 	
 	@Override
@@ -67,7 +65,7 @@ public class Group {
 		if (obj == null || getClass() != obj.getClass())
 			return false;
 		Group other = (Group) obj;
-		return name.equals(other.name);
+		return id == null ? false : id.equals(other.id);
 	}
 	
 	@Override

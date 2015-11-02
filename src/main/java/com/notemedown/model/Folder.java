@@ -101,12 +101,7 @@ public class Folder {
 	
 	@Override
 	public int hashCode() {
-		int result = 31;
-		result = 17 * result + name.hashCode();
-		result = 17 * result + (isRoot ? 1 : 0);
-		result = 17 * result + (isRoot ? parentGroup.hashCode()
-				: parentFolder.hashCode());
-		return result;
+		return id == null ? super.hashCode() : id.hashCode();
 	}
 	
 	@Override
@@ -117,11 +112,7 @@ public class Folder {
 		if (obj == null || getClass() != obj.getClass())
 			return false;
 		Folder other = (Folder) obj;
-		if (name.equals(other.name))
-			if (isRoot.equals(other.isRoot))
-				return isRoot ? parentGroup.equals(other.parentGroup)
-						: parentFolder.equals(other.parentFolder);
-		return false;
+		return id == null ? false : id.equals(other.id);
 	}
 	
 	@Override

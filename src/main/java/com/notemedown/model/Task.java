@@ -120,10 +120,7 @@ public class Task {
 	
 	@Override
 	public int hashCode() {
-		int result = 31;
-		result = 17 * result + name.hashCode();
-		result = 17 * result + parentFolder.hashCode();
-		return result;
+		return id == null ? super.hashCode() : id.hashCode();
 	}
 	
 	@Override
@@ -134,10 +131,7 @@ public class Task {
 		if (obj == null || getClass() != obj.getClass())
 			return false;
 		Task other = (Task) obj;
-		
-		if (name.equals(other.name))
-			return parentFolder.equals(other.parentFolder);
-		return false;
+		return id == null ? false : id.equals(other.id);
 	}
 	
 	@Override
