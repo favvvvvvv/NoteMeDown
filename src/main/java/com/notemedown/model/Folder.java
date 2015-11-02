@@ -117,7 +117,11 @@ public class Folder {
 	
 	@Override
 	public String toString() {
-		return (isRoot ? (parentGroup.toString() + " : ")
-				: (parentFolder.toString() + "/")) + name;
+		return getClass().getSimpleName() + ": " + id;
+	}
+	
+	public String absolutePath() {
+		return (isRoot ? (parentGroup.absolutePath() + " : ")
+				: (parentFolder.absolutePath() + "/")) + name;
 	}
 }

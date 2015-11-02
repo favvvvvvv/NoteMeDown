@@ -136,28 +136,40 @@ public class Task {
 	
 	@Override
 	public String toString() {
-		return parentFolder.toString() + " : " + name;
+		return getClass().getSimpleName() + ": " + id;
+	}
+	
+	public String absolutePath() {
+		return parentFolder.absolutePath() + " : " + name;
 	}
 	
 	public Task postpone() {
+		if (status != Status.IN_PROGRESS)
+			throw new IllegalStateException("Task should be IN_PROGRESS");
 		setStatus(Status.POSTPONED);
 		setDatePostponed(Date.valueOf(LocalDate.now()));
 		return this;
 	}
 	
 	public Task continue_(Date dueDate) {
+		if (status != Status.POSTPONED)
+			throw new IllegalStateException("Task should be POSTPONED");
 		setStatus(Status.IN_PROGRESS);
 		setDueDate(dueDate);
 		return this;
 	}
 	
 	public Task complete() {
+		if (status != Status.IN_PROGRESS)
+			throw new IllegalStateException("Task should be IN_PROGRESS");
 		setStatus(Status.COMPLETED);
 		setDateFinished(Date.valueOf(LocalDate.now()));
 		return this;
 	}
 	
 	public Task fail() {
+		if (status != Status.IN_PROGRESS)
+			throw new IllegalStateException("Task should be IN_PROGRESS");
 		setStatus(Status.FAILED);
 		setDateFinished(Date.valueOf(LocalDate.now()));
 		return this;
