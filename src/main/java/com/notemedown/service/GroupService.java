@@ -29,10 +29,12 @@ public class GroupService {
 		dao.delete(group);
 	}
 	
+	@Transactional(readOnly = true)
 	public Group get(Long id) {
 		return dao.get(id);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public List<Group> getAll() {
 		return dao.getAll();
 	}

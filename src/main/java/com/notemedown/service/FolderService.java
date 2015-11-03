@@ -30,14 +30,17 @@ public class FolderService {
 		dao.delete(folder);
 	}
 
+	@Transactional(readOnly = true)
 	public Folder get(Long id) {
 		return dao.get(id);
 	}
 
+	@Transactional(readOnly = true)
 	public List<Folder> getByFolder(Folder folder) {
 		return dao.getByFolder(folder);
 	}
 
+	@Transactional(readOnly = true)
 	public List<Folder> getByGroup(Group group) {
 		return dao.getByGroup(group);
 	}
