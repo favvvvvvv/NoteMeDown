@@ -39,11 +39,7 @@ public class TaskService {
 		return dao.getByStatus(status);
 	}
 
-	public List<Task> getByFolder(Folder folder) {
-		return dao.getByFolder(folder);
-	}
-
-	public List<Task> getAll() {
-		return dao.getAll();
+	public List<Task> getByStatusFromFolder(Status status, Folder folder) {
+		return dao.getByStatusFromFolder(status, folder);
 	}
 }

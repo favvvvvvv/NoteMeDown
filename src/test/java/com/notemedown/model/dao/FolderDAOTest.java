@@ -157,38 +157,6 @@ public class FolderDAOTest {
 		assertArrayEquals(anotherParentFolderFolders.toArray(), retrievedFolders.toArray());
 	}
 	
-	@Test
-	public void successWhenRetrievingAllFolders() {
-		Folder parentFolder = new Folder("Parent folder", parentGroup);
-		dao.save(parentFolder);
-		Folder anotherParentFolder = new Folder("Another parent folder", parentGroup);
-		dao.save(anotherParentFolder);
-		
-		List<Folder> parentFolderFolders = new ArrayList<>(),
-				anotherParentFolderFolders = new ArrayList<>();
-		for (int i = 0; i < 3; ++i) {
-			Folder folder = new Folder("Folder " + i, parentFolder);
-			parentFolderFolders.add(folder);
-			dao.save(folder);
-		}
-		for (int i = 3; i < 5; ++i) {
-			Folder folder = new Folder("Folder " + i, anotherParentFolder);
-			anotherParentFolderFolders.add(folder);
-			dao.save(folder);
-		}
-		
-		List<Folder> allFolders = new ArrayList<Folder>(Arrays.asList(parentFolder, anotherParentFolder));
-		allFolders.addAll(parentFolderFolders);
-		allFolders.addAll(anotherParentFolderFolders);
-		
-		dao.getHibernateTemplate().flush();
-		dao.getHibernateTemplate().clear();
-		
-		List<Folder> retrievedFolders = dao.getAll();
-		retrievedFolders.sort(idComparator);
-		assertArrayEquals(allFolders.toArray(), retrievedFolders.toArray());
-	}
-	
 	@Test(expected = DataIntegrityViolationException.class)
 	public void failWhenStoringAnotherFolderWithSameNameIntoSameGroup() {
 		Folder folder = new Folder("Folder name", parentGroup);

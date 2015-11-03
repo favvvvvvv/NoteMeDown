@@ -35,13 +35,10 @@ public class TaskDAO extends HibernateDaoSupport {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Task> getByFolder(Folder folder) {
+	public List<Task> getByStatusFromFolder(Status status, Folder folder) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Task.class)
+				.add(Restrictions.eq("status", status))
 				.add(Restrictions.eq("parentFolder", folder));
 		return (List<Task>) getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	public List<Task> getAll() {
-		return getHibernateTemplate().loadAll(Task.class);
 	}
 }

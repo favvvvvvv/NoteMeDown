@@ -39,8 +39,4 @@ public class FolderDAO extends HibernateDaoSupport {
 				.add(Restrictions.eq("parentGroup", group));
 		return (List<Folder>) getHibernateTemplate().findByCriteria(criteria);
 	}
-	
-	public List<Folder> getAll() {
-		return getHibernateTemplate().loadAll(Folder.class);
-	}
 }

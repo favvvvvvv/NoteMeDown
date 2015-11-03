@@ -130,41 +130,12 @@ public class TaskDAOTest {
 		dao.getHibernateTemplate().flush();
 		dao.getHibernateTemplate().clear();
 		
-		List<Task> retrievedTasks = dao.getByFolder(parentFolder);
+		List<Task> retrievedTasks = dao.getByStatusFromFolder(Status.IN_PROGRESS, parentFolder);
 		retrievedTasks.sort(idComparator);
 		assertArrayEquals(parentFolderTasks.toArray(), retrievedTasks.toArray());
-		retrievedTasks = dao.getByFolder(anotherParentFolder);
+		retrievedTasks = dao.getByStatusFromFolder(Status.IN_PROGRESS, anotherParentFolder);
 		retrievedTasks.sort(idComparator);
 		assertArrayEquals(anotherParentFolderTasks.toArray(), retrievedTasks.toArray());
-	}
-	
-	@Test
-	public void successWhenRetrievingAllTasks() {
-		Folder anotherParentFolder = new Folder("Another parent folder", parentGroup);
-		folderDao.save(anotherParentFolder);
-		
-		List<Task> parentFolderTasks = new ArrayList<>(),
-				anotherParentFolderTasks = new ArrayList<>();
-		for (int i = 0; i < 3; ++i) {
-			Task task = new Task("Task " + i, parentFolder);
-			parentFolderTasks.add(task);
-			dao.save(task);
-		}
-		for (int i = 3; i < 5; ++i) {
-			Task task = new Task("Task " + i, anotherParentFolder);
-			anotherParentFolderTasks.add(task);
-			dao.save(task);
-		}
-		
-		List<Task> allTasks = new ArrayList<>(parentFolderTasks);
-		allTasks.addAll(anotherParentFolderTasks);
-		
-		dao.getHibernateTemplate().flush();
-		dao.getHibernateTemplate().clear();
-		
-		List<Task> retrievedTasks = dao.getAll();
-		retrievedTasks.sort(idComparator);
-		assertArrayEquals(allTasks.toArray(), retrievedTasks.toArray());
 	}
 	
 	@Test(expected = DataIntegrityViolationException.class)
