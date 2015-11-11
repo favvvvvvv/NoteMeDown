@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html layout:decorator="layout">
+<body>
+	<div layout:fragment="content">
+		<table class="table table-striped table-hover" th:unless="${#lists.isEmpty(folders)}">
+			<col class="col-icon" />
+			<thead>
+				<tr>
+					<th></th>
+					<th>Folder name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="folder: ${folders}">
+					<td><span class="glyphicon glyphicon-folder-open"></span></td>
+					<td><a th:href="@{'/folders/' + ${folder.id}}"
+									th:text="${folder.name}">Static folder</a></td>
+					<!-- TODO: Actions -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

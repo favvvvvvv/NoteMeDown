@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html layout:decorator="layout">
+<body>
+	<div layout:fragment="content">
+		<table class="table table-striped table-hover" th:unless="${#lists.isEmpty(subfolders)}">
+			<col class="col-icon" />
+			<thead>
+				<tr>
+					<th></th>
+					<th>Folder name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="folder: ${subfolders}">
+					<td><span class="glyphicon glyphicon-folder-open"></span></td>
+					<td><a th:href="@{'/folders/' + ${folder.id}}"
+									th:text="${folder.name}">Static folder</a></td>
+					<!-- TODO: Actions -->
+				</tr>
+			</tbody>
+		</table>
+		<table class="table table-striped table-hover" th:unless="${#lists.isEmpty(tasks)}">
+			<col class="col-icon" />
+			<thead>
+				<tr>
+					<th></th>
+					<th>Task name</th>
+					<th>Due date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="task: ${tasks}">
+					<td><span class="glyphicon glyphicon-file"></span></td>
+					<td th:text="${task.name}">Static task</td>
+					<td th:text="${task.dueDate}">Static due date</td>
+					<!-- TODO: Actions -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

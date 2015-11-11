@@ -6,17 +6,25 @@
 	
 	<groupId>com.notemedown</groupId>
 	<artifactId>notemedown</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	
 	<properties>
 		<spring.version>4.2.1.RELEASE</spring.version>
-		<hibernate.version>4.3.11.Final</hibernate.version>
-		<dbcp.version>1.4</dbcp.version>
 		<pgsql.version>9.4-1204-jdbc42</pgsql.version>
+		<dbcp.version>1.4</dbcp.version>
+		<hibernate.version>4.3.11.Final</hibernate.version>
+		<servlet.version>3.1.0</servlet.version>
+		<thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
+		<thymeleaf.layout.version>1.3.1</thymeleaf.layout.version>
 		<slf4j.version>1.7.12</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
-		<servlet.version>3.1.0</servlet.version>
+		<junit.version>4.12</junit.version>
+		
+		<java.version>1.8</java.version>
+		<tomcat.plugin.version>2.2</tomcat.plugin.version>
+		<compiler.plugin.version>3.3</compiler.plugin.version>
+		<surefire.plugin.version>2.5</surefire.plugin.version>
 		
 		<webapp.path>/notemedown</webapp.path>
 		<webapp.manager>http://localhost:8080/manager/text</webapp.manager>
@@ -44,15 +52,9 @@
 
 		<!-- ORM and data access -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${pgsql.version}</version>
 		</dependency>
 		
 		<dependency>
@@ -62,12 +64,25 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${pgsql.version}</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		
 		<!-- Web -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -81,11 +96,16 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet.version}</version>
-			<scope>provided</scope>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>${thymeleaf.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+			<version>${thymeleaf.layout.version}</version>
+		</dependency>		
 		
 		<!-- Logging -->
 		<dependency>
@@ -116,7 +136,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		
@@ -133,7 +153,7 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
+				<version>${tomcat.plugin.version}</version>
 				<configuration>
 					<server>tomcat-8</server>
 					<update>true</update>
@@ -144,18 +164,18 @@
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-compiler-plugin</artifactId>
-			    <version>3.3</version>
+			    <version>${compiler.plugin.version}</version>
 			    <configuration>
-			        <source>1.8</source>
-			        <target>1.8</target>
-			        <testSource>1.8</testSource>
-			        <testTarget>1.8</testTarget>
+			        <source>${java.version}</source>
+			        <target>${java.version}</target>
+			        <testSource>${java.version}</testSource>
+			        <testTarget>${java.version}</testTarget>
 			    </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.5</version>
+				<version>${surefire.plugin.version}</version>
 				<configuration>
 					<failIfNoTests>true</failIfNoTests>
 					<excludes>
@@ -175,7 +195,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.5</version>
+						<version>${surefire.plugin.version}</version>
 						<configuration>
 							<failIfNoTests>true</failIfNoTests>
 							<excludes>

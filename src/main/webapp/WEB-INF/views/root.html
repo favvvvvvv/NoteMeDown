@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html layout:decorator="layout">
+<body>
+	<div layout:fragment="content">
+		<table class="table table-striped table-hover" th:unless="${#lists.isEmpty(groups)}">
+			<col class="col-icon" />
+			<thead>
+				<tr>
+					<th></th>
+					<th>Group name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="group: ${groups}">
+					<td><span class="glyphicon glyphicon-briefcase"></span></td>
+					<td><a th:href="@{'/groups/' + ${group.id}}"
+									th:text="${group.name}">Static group</a></td>
+					<!-- TODO: Actions -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
