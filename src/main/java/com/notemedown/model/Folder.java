@@ -99,6 +99,14 @@ public class Folder {
 		this.subfolders = subfolders;
 	}
 	
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 	@Override
 	public int hashCode() {
 		return id == null ? super.hashCode() : id.hashCode();

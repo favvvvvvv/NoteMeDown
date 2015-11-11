@@ -19,7 +19,7 @@ public class Group {
 	private String name;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "parentGroup",
-			orphanRemoval = true)
+			orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Folder> folders = new HashSet<>();
 	
 	public Group() {}
