@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<th:block th:fragment="folder">
+	
+		<div class="modal fade" id="addEditFolderModal" tabindex="-1" role="dialog" aria-labelledby="addEditFolderModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="addEditFolderModalLabel" data-add="New Folder" data-edit="Edit folder"></h4>
+					</div>
+					<div class="modal-body">
+						
+						<form id="addEditFolderForm" method="post" th:object="${folder}"
+								th:attr="data-add=@{/folders},data-edit=@{/folders/00/edit}">
+							<div class="form-group">
+								<label for="folderName">Name:</label>
+								<input id="folderName" class="form-control" type="text" th:field="*{name}"
+										required="required" placeholder="Folder name" />
+							</div>
+							<input id="folderIsRoot" type="hidden" th:field="*{isRoot}" />
+							<input id="folderParentId" type="hidden" name="parentId" />
+						</form>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="addEditFolderSubmit" form="addEditFolderForm" class="btn btn-primary"
+								data-add="Add" data-edit="Edit"></button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="deleteFolderModal" tabindex="-1" role="dialog" aria-labelledby="deleteFolderModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="deleteFolderModalLabel">Delete Folder</h4>
+					</div>
+					<div class="modal-body">
+						<span id="folderConfirmation">
+							Are you sure you want to delete this folder (<span class="folder-name"></span>)?
+						</span>
+					</div>
+					<div class="modal-footer">
+						<form id="deleteFolderForm" class="form-inline" method="POST" th:action="@{/folders/00/delete}">
+							<button type="submit" class="btn btn-primary">Yes</button>
+							<button type="button" id="folderNo" class="btn btn-default" data-dismiss="modal">No</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+	
+	<th:block th:fragment="displayTask">
+	
+		<div class="modal fade" id="displayTaskModal" tabindex="-1" role="dialog" aria-labelledby="displayTaskModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="displayTaskModalLabel">Task data</h4>
+					</div>
+					<div class="modal-body">
+						
+						<p>
+							<span id="displayStatus"></span>
+							<span id="displayName"></span>
+						</p>
+						<p id="displayDescription"></p>
+						<p>
+							<span id="displayDueDate"></span>
+							<span id="displayDatePostponed"></span>
+							<span id="displayDateFinished"></span>
+						</p>
+						
+					</div>
+					<div class="modal-footer">
+						<button id="displayClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+</body>
+</html>

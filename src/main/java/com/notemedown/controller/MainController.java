@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.notemedown.model.Folder;
 import com.notemedown.model.Group;
 import com.notemedown.model.Status;
+import com.notemedown.model.Task;
 import com.notemedown.service.FolderService;
 import com.notemedown.service.GroupService;
 import com.notemedown.service.TaskService;
@@ -34,26 +35,32 @@ public class MainController {
 	
 	@ModelAttribute("groups")
 	public List<Group> prepareGroups() {
-		return groupService.getAll();
+		return groupService.getAll(true);
 	}
 	
 	@RequestMapping(path = "/", method=RequestMethod.GET)
-	public String layout(ModelMap model) {
+	public String groups(ModelMap model) {
 		prepareGroups();
+		model.put("group", new Group());
 		return "root";
 	}
 
 	@RequestMapping(path = "/groups/{id}", method=RequestMethod.GET)
-	public String groupContent(ModelMap model, @PathVariable("id") Long id) {
+	public String groupFolders(@PathVariable("id") Long id, ModelMap model) {
 		prepareGroups();
-		model.put("folders", groupService.get(id).getFolders());
+		model.put("groupId", id);
+		model.put("folder", new Folder());
+		model.put("folders", folderService.getByGroup(id));
 		return "group";
 	}
 	
 	@RequestMapping(path = "/folders/{id}", method = RequestMethod.GET)
-	public String folderContent(ModelMap model, @PathVariable("id") Long id) {
+	public String folderContents(@PathVariable("id") Long id, ModelMap model) {
 		prepareGroups();
 		Folder folder = folderService.get(id);
+		model.put("folderId", id);
+		model.put("task", new Task());
+		model.put("folder", new Folder());
 		model.put("subfolders", folderService.getByFolder(folder));
 		model.put("tasks", taskService.getByStatusFromFolder(
 				Status.IN_PROGRESS, folder));

@@ -22,13 +22,20 @@ public class TaskService {
 	}
 	
 	@Transactional
-	public Long save(Task task) {
+	public Long save(Task task, Long folderId) {
+		task.setParentFolder(folderDao.get(folderId));
 		return dao.save(task);
 	}
 	
 	@Transactional
-	public void update(Task task) {
+	public void update(Task task, Long folderId) {
+		task.setParentFolder(folderDao.get(folderId));
 		dao.update(task);
+	}
+	
+	@Transactional
+	public void delete(Long id) {
+		dao.delete(dao.get(id));
 	}
 	
 	@Transactional

@@ -20,11 +20,13 @@ public class Folder {
 	
 	@Column(name = "is_root")
 	private Boolean isRoot;
-	
+
+	@OrderBy("name ASC")
 	@ManyToOne
 	@JoinColumn(name = "folder_id", referencedColumnName = "id")
 	private Folder parentFolder;
-	
+
+	@OrderBy("name ASC")
 	@ManyToOne
 	@JoinColumn(name = "group_id", referencedColumnName = "id")
 	private Group parentGroup;
@@ -129,7 +131,7 @@ public class Folder {
 	}
 	
 	public String absolutePath() {
-		return (isRoot ? (parentGroup.absolutePath() + " : ")
+		return (isRoot ? (parentGroup.absolutePath() + ":/")
 				: (parentFolder.absolutePath() + "/")) + name;
 	}
 }

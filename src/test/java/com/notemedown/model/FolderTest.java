@@ -10,6 +10,6 @@ public class FolderTest {
 		Folder folder = new Folder("Subfolder",
 				new Folder("Parent folder", new Group("Parent group")));
 		
-		assertEquals("Parent group : Parent folder/Subfolder", folder.absolutePath());
+		assertEquals("Parent group:/Parent folder/Subfolder", folder.absolutePath());
 	}
 }

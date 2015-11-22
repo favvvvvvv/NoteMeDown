@@ -3,6 +3,7 @@ package com.notemedown.model.dao;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
@@ -30,7 +31,8 @@ public class TaskDAO extends HibernateDaoSupport {
 	@SuppressWarnings("unchecked")
 	public List<Task> getByStatus(Status status) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Task.class)
-				.add(Restrictions.eq("status", status));
+				.add(Restrictions.eq("status", status))
+				.addOrder(Order.asc("name"));
 		return (List<Task>) getHibernateTemplate().findByCriteria(criteria);
 	}
 	
@@ -38,7 +40,8 @@ public class TaskDAO extends HibernateDaoSupport {
 	public List<Task> getByStatusFromFolder(Status status, Folder folder) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Task.class)
 				.add(Restrictions.eq("status", status))
-				.add(Restrictions.eq("parentFolder", folder));
+				.add(Restrictions.eq("parentFolder", folder))
+				.addOrder(Order.asc("name"));
 		return (List<Task>) getHibernateTemplate().findByCriteria(criteria);
 	}
 }

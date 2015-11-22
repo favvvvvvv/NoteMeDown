@@ -3,6 +3,7 @@ package com.notemedown.model.dao;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
@@ -29,14 +30,16 @@ public class FolderDAO extends HibernateDaoSupport {
 	@SuppressWarnings("unchecked")
 	public List<Folder> getByFolder(Folder folder) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Folder.class)
-				.add(Restrictions.eq("parentFolder", folder));
+				.add(Restrictions.eq("parentFolder", folder))
+				.addOrder(Order.asc("name"));
 		return (List<Folder>) getHibernateTemplate().findByCriteria(criteria);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Folder> getByGroup(Group group) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Folder.class)
-				.add(Restrictions.eq("parentGroup", group));
+				.add(Restrictions.eq("parentGroup", group))
+				.addOrder(Order.asc("name"));
 		return (List<Folder>) getHibernateTemplate().findByCriteria(criteria);
 	}
 }

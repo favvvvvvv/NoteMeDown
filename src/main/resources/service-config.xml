@@ -15,6 +15,7 @@
 	
 	<bean id="folderService" class="com.notemedown.service.FolderService">
 		<constructor-arg ref="folderDAO" />
+		<constructor-arg ref="groupDAO" />
 	</bean>
 	
 	<bean id="taskService" class="com.notemedown.service.TaskService">

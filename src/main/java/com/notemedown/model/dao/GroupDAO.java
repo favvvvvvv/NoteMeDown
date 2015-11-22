@@ -1,5 +1,7 @@
 package com.notemedown.model.dao;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import java.util.List;
@@ -23,7 +25,10 @@ public class GroupDAO extends HibernateDaoSupport {
 		return getHibernateTemplate().get(Group.class, id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Group> getAll() {
-		return getHibernateTemplate().loadAll(Group.class);
+		DetachedCriteria criteria = DetachedCriteria.forClass(Group.class)
+				.addOrder(Order.asc("name"));
+		return (List<Group>) getHibernateTemplate().findByCriteria(criteria);
 	}
 }

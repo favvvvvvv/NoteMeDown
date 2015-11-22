@@ -18,8 +18,9 @@ public class Group {
 	@Column(name = "name", length = 30)
 	private String name;
 	
+	@OrderBy("name ASC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "parentGroup",
-			orphanRemoval = true, fetch = FetchType.EAGER)
+			orphanRemoval = true)
 	private Set<Folder> folders = new HashSet<>();
 	
 	public Group() {}

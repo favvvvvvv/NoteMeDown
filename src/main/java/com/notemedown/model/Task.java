@@ -2,6 +2,7 @@ package com.notemedown.model;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import javax.persistence.*;
 
@@ -33,7 +34,8 @@ public class Task {
 	
 	@Column(name = "date_finished")
 	private Date dateFinished;
-	
+
+	@OrderBy("name ASC")
 	@ManyToOne
 	@JoinColumn(name = "folder_id", referencedColumnName = "id")
 	private Folder parentFolder;
@@ -140,7 +142,7 @@ public class Task {
 	}
 	
 	public String absolutePath() {
-		return parentFolder.absolutePath() + " : " + name;
+		return parentFolder.absolutePath() + "/" + name;
 	}
 	
 	public Task postpone() {
@@ -156,6 +158,7 @@ public class Task {
 			throw new IllegalStateException("Task should be POSTPONED");
 		setStatus(Status.IN_PROGRESS);
 		setDueDate(dueDate);
+		setDatePostponed(null);
 		return this;
 	}
 	
@@ -173,5 +176,28 @@ public class Task {
 		setStatus(Status.FAILED);
 		setDateFinished(Date.valueOf(LocalDate.now()));
 		return this;
+	}
+	
+	private Long daysLeft() {
+		if (this.dueDate == null)
+			return null;
+		
+		LocalDate dueDate = this.dueDate.toLocalDate(),
+				today = LocalDate.now();
+		return ChronoUnit.DAYS.between(today, dueDate);
+	}
+	
+	public boolean isOverdue() {
+		Long daysLeft = daysLeft();
+		if (daysLeft == null) // No due date to begin with
+			return false;
+		return daysLeft < 0;
+	}
+	
+	public String dueDateInfo() {
+		Long daysLeft = daysLeft();
+		if (daysLeft == null)
+			return null;
+		return (daysLeft < 0 ? -daysLeft + " days overdue" : daysLeft + " days left");
 	}
 }

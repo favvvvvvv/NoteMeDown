@@ -23,27 +23,49 @@ body {
 	padding: 20px;
 }
 
-.col-icon {
-	width: 30px;
+.col-icon,
+.col-duedate,
+.col-actions {
+	width: 1%;
+	white-space: nowrap;
 }
 
-td a {
+.col-duedate {
+	width: 200px;
+}
+
+td button.btn-link {
+	text-align: left;
+	padding: 0;
+	border: 0;
+}
+
+td a,
+td button.btn-link {
 	display: block;
 	width: 100%;
-	heigth: 100%;
 	color: #000;
 }
 
 td a:visited,
 td a:hover,
 td a:focus,
-td a:active {
+td a:active,
+td button.btn-link:visited,
+td button.btn-link:hover,
+td button.btn-link:focus,
+td button.btn-link:active {
 	text-decoration: none;
 	color: #555;
 }
 
-td a:active {
+a:active,
+button:active {
 	position: relative;
 	top: 1px;
 	left: 1px;
+}
+
+div.empty {
+	width: 100%;
 }

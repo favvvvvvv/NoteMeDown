@@ -2,6 +2,7 @@ package com.notemedown.service;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.notemedown.model.Group;
@@ -25,17 +26,27 @@ public class GroupService {
 	}
 	
 	@Transactional
-	public void delete(Group group) {
-		dao.delete(group);
+	public void delete(Long id) {
+		dao.delete(dao.get(id));
 	}
 	
 	@Transactional(readOnly = true)
 	public Group get(Long id) {
 		return dao.get(id);
 	}
+	
+	public List<Group> getAll() {
+		return getAll(false);
+	}
 
 	@Transactional(readOnly = true)
-	public List<Group> getAll() {
-		return dao.getAll();
+	public List<Group> getAll(boolean initialize) {
+		List<Group> groups = dao.getAll();
+		if (initialize) {
+			for (Group g: groups) {
+				Hibernate.initialize(g.getFolders());
+			}
+		}
+		return groups;
 	}
 }
