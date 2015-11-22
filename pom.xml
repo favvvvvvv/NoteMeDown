@@ -55,6 +55,7 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${pgsql.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		
 		<dependency>
