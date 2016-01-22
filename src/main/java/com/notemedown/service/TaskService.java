@@ -2,6 +2,7 @@ package com.notemedown.service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +57,13 @@ public class TaskService {
 	@Transactional(readOnly = true)
 	public List<Task> getByStatusFromFolder(Status status, Folder folder) {
 		return dao.getByStatusFromFolder(status, folder);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Task> getByDaysLeft(String unit, int amount) {
+		LocalDate today = LocalDate.now();
+		Date boundary = Date.valueOf(today.plus(amount, ChronoUnit.valueOf(unit)));
+		return dao.getByDaysLeft(boundary);
 	}
 	
 	@Transactional

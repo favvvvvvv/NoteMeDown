@@ -1,5 +1,6 @@
 package com.notemedown.model.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -42,6 +43,14 @@ public class TaskDAO extends HibernateDaoSupport {
 				.add(Restrictions.eq("status", status))
 				.add(Restrictions.eq("parentFolder", folder))
 				.addOrder(Order.asc("name"));
+		return (List<Task>) getHibernateTemplate().findByCriteria(criteria);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Task> getByDaysLeft(Date boundary) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Task.class)
+				.add(Restrictions.lt("due_date", boundary))
+				.addOrder(Order.asc("due_date"));
 		return (List<Task>) getHibernateTemplate().findByCriteria(criteria);
 	}
 }
