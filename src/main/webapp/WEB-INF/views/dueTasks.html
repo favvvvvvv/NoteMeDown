@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html layout:decorator="layout">
+<body>
+	<div layout:fragment="content">
+		<div class="empty" th:if="${#lists.isEmpty(dueTasks)}">You have no Due Tasks</div>
+		<th:block th:unless="${#lists.isEmpty(dueTasks)}">
+		
+			<form th:action="@{/tasks/due}" method="GET" class="form-inline">
+				<div class="form-group">
+					<label for="amount">Filter:</label>
+					<input type="number" id="amount" class="form-control"
+							placeholder="Amount" name="amount" value="1"/>
+					<select id="unit" class="form-control" name="unit">
+						<option value="DAYS">Days</option>
+						<option value="WEEKS" selected="selected">Weeks</option>
+						<option value="MONTHS">Months</option>
+						<option value="YEARS">Years</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<button type="submit" class="btn btn-default">Apply</button>
+				</div>
+			</form>
+			
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Task name</th>
+						<th>Due date</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="task: ${dueTasks}" class="data-holder" th:classappend="${task.isOverdue()} ? 'danger' : ''"
+							th:attr="id=${task.id},data-name=${task.name},data-description=${task.description},
+									data-status=${task.status},data-duedate=${task.dueDate},data-duedateinfo=${task.dueDateInfo()},
+									data-datepostponed=${task.datePostponed},data-datefinished=${task.dateFinished}">
+						<td class="col-icon"><span class="glyphicon glyphicon-play"></span></td>
+						<td><button th:text="${task.name}" type="button" class="btn btn-link" data-toggle="modal"
+								th:attr="data-id=${task.id}" data-target="#displayTaskModal">Static task</button></td>
+						<td class="col-duedate">
+							<span th:unless="${task.dueDate} == null" th:text="${task.dueDate} + ' (' + ${task.dueDateInfo()} + ')'">Static due date</span>
+						</td>
+						<td class="col-actions">
+							<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addEditTaskModal"
+									th:attr="data-id=${task.id},data-folderid=${task.parentFolder.id}" data-mode="edit">
+								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+							</button>
+							<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteTaskModal"
+									th:attr="data-id=${task.id},data-name=${task.name}">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</th:block>
+	</div>
+	
+	<div layout:fragment="modal">
+	
+		<th:block th:replace="fragments/modals :: task"></th:block>
+		
+		<th:block th:replace="fragments/modals :: displayTask"></th:block>
+		
+	</div>
+	
+	<th:block layout:fragment="custom-scripts">
+		<script th:src="@{/assets/js/task-bs-modals.js}"></script>
+		<script th:src="@{/assets/js/display-task-bs-modals.js}"></script>
+		<script>
+		    $('#taskDueDate').datepicker({
+		        autoclose: true,
+		        todayHighlight: true,
+		        format: "yyyy-mm-dd"
+		    });
+	    </script>
+		<script th:src="@{/assets/js/url-params-extraction.js}"></script>
+	    <script>
+	    	var match = getURLParam('amount')
+	    	if (match)
+	    		$('#amount').val(match)
+	    	match = getURLParam('unit')
+	    	if (match)
+	    		$('#unit').val(match)
+	    </script>
+	</th:block>
+</body>
+</html>

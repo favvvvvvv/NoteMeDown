@@ -69,3 +69,7 @@ button:active {
 div.empty {
 	width: 100%;
 }
+
+input#amount {
+	width: 95px;
+}

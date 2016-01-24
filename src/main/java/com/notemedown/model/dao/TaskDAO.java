@@ -49,8 +49,8 @@ public class TaskDAO extends HibernateDaoSupport {
 	@SuppressWarnings("unchecked")
 	public List<Task> getByDaysLeft(Date boundary) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Task.class)
-				.add(Restrictions.lt("due_date", boundary))
-				.addOrder(Order.asc("due_date"));
+				.add(Restrictions.le("dueDate", boundary))
+				.addOrder(Order.asc("dueDate"));
 		return (List<Task>) getHibernateTemplate().findByCriteria(criteria);
 	}
 }

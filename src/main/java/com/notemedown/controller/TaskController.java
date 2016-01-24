@@ -3,6 +3,8 @@ package com.notemedown.controller;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -43,11 +45,12 @@ public class TaskController {
 	}
 
 	@RequestMapping(path = "/{id}/edit", method = RequestMethod.POST)
-	public String editTask(@PathVariable("id") Long id, Task task,
+	public String editTask(HttpServletRequest request, @PathVariable("id") Long id, Task task,
 			@RequestParam("folderId") Long folderId, ModelMap model) {
 		task.setId(id);
 		taskService.update(task, folderId);
-		return "redirect:/" + "folders/" + task.getParentFolder().getId();
+		String referer = request.getHeader("Referer");
+		return "redirect:" + referer;
 	}
 	
 	@RequestMapping(path = "/{id}/delete", method = RequestMethod.POST)

@@ -80,68 +80,8 @@
 	<div layout:fragment="modal">
 	
 		<th:block th:replace="fragments/modals :: folder"></th:block>
-		
-		<div class="modal fade" id="addEditTaskModal" tabindex="-1" role="dialog" aria-labelledby="addEditTaskModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="addEditTaskModalLabel" data-add="New Task" data-edit="Edit Task"></h4>
-					</div>
-					<div class="modal-body">
-						
-						<form id="addEditTaskForm" method="post" th:object="${task}"
-								th:attr="data-add=@{/tasks},data-edit=@{/tasks/00/edit}">
-							<div class="form-group">
-								<label for="taskName">Name:</label>
-								<input id="taskName" class="form-control" type="text" th:field="*{name}"
-										required="required" placeholder="Task name" />
-							</div>
-							<div class="form-group">
-								<label for="taskDescription">Description:</label>
-								<textarea id="taskDescription" class="form-control" rows="3" th:field="*{description}"
-										placeholder="Task description"></textarea>
-							</div>
-							<div class="form-group">
-								<label for="taskDueDate">Due date:</label>
-								<input id="taskDueDate" class="form-control" type="text" th:field="*{dueDate}"
-										placeholder="Task due date" />
-							</div>
-							<input id="taskStatus" type="hidden" th:field="*{status}" />
-							<input id="taskDatePostponed" type="hidden" th:field="*{datePostponed}" />
-							<input id="taskDateFinished" type="hidden" th:field="*{dateFinished}" />
-							<input id="taskFolderId" type="hidden" name="folderId" />
-						</form>
-						
-					</div>
-					<div class="modal-footer">
-						<button type="submit" id="addEditTaskSubmit" form="addEditTaskForm" class="btn btn-primary"
-								data-add="Add" data-edit="Edit"></button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="modal fade" id="deleteTaskModal" tabindex="-1" role="dialog" aria-labelledby="deleteTaskModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="deleteTaskModalLabel">Delete Task</h4>
-					</div>
-					<div class="modal-body">
-						<span id="taskConfirmation">
-							Are you sure you want to delete this task (<span class="task-name"></span>)?
-						</span>
-					</div>
-					<div class="modal-footer">
-						<form id="deleteTaskForm" class="form-inline" method="POST" th:action="@{/tasks/00/delete}">
-							<button type="submit" class="btn btn-primary">Yes</button>
-							<button type="button" id="taskNo" class="btn btn-default" data-dismiss="modal">No</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+	
+		<th:block th:replace="fragments/modals :: task"></th:block>
 		
 		<th:block th:replace="fragments/modals :: displayTask"></th:block>
 		

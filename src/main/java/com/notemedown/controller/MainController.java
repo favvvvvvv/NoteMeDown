@@ -1,5 +1,6 @@
 package com.notemedown.controller;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.notemedown.model.Folder;
 import com.notemedown.model.Group;
@@ -40,14 +42,12 @@ public class MainController {
 	
 	@RequestMapping(path = "/", method=RequestMethod.GET)
 	public String groups(ModelMap model) {
-		prepareGroups();
 		model.put("group", new Group());
 		return "root";
 	}
 
 	@RequestMapping(path = "/groups/{id}", method=RequestMethod.GET)
 	public String groupFolders(@PathVariable("id") Long id, ModelMap model) {
-		prepareGroups();
 		model.put("groupId", id);
 		model.put("folder", new Folder());
 		model.put("folders", folderService.getByGroup(id));
@@ -56,7 +56,6 @@ public class MainController {
 	
 	@RequestMapping(path = "/folders/{id}", method = RequestMethod.GET)
 	public String folderContents(@PathVariable("id") Long id, ModelMap model) {
-		prepareGroups();
 		Folder folder = folderService.get(id);
 		model.put("folderId", id);
 		model.put("task", new Task());
@@ -65,5 +64,13 @@ public class MainController {
 		model.put("tasks", taskService.getByStatusFromFolder(
 				Status.IN_PROGRESS, folder));
 		return "folder";
+	}
+	
+	@RequestMapping(path = "/tasks/due", method=RequestMethod.GET)
+	public String dueTasks(@RequestParam(name = "unit", defaultValue = "WEEKS") String unit,
+			@RequestParam(name = "amount", defaultValue = "1") Integer amount, ModelMap model) {
+		model.put("task", new Task());
+		model.put("dueTasks", taskService.getByDaysLeft(unit, amount));
+		return "dueTasks";
 	}
 }
