@@ -1,6 +1,5 @@
 package com.notemedown.controller;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.notemedown.model.Breadcrumbs;
 import com.notemedown.model.Folder;
 import com.notemedown.model.Group;
 import com.notemedown.model.Status;
@@ -42,12 +42,14 @@ public class MainController {
 	
 	@RequestMapping(path = "/", method=RequestMethod.GET)
 	public String groups(ModelMap model) {
+		model.put("breadcrumbs", new Breadcrumbs());
 		model.put("group", new Group());
 		return "root";
 	}
 
 	@RequestMapping(path = "/groups/{id}", method=RequestMethod.GET)
 	public String groupFolders(@PathVariable("id") Long id, ModelMap model) {
+		model.put("breadcrumbs", new Breadcrumbs(groupService.get(id)));
 		model.put("groupId", id);
 		model.put("folder", new Folder());
 		model.put("folders", folderService.getByGroup(id));
@@ -57,6 +59,7 @@ public class MainController {
 	@RequestMapping(path = "/folders/{id}", method = RequestMethod.GET)
 	public String folderContents(@PathVariable("id") Long id, ModelMap model) {
 		Folder folder = folderService.get(id);
+		model.put("breadcrumbs", new Breadcrumbs(folder));
 		model.put("folderId", id);
 		model.put("task", new Task());
 		model.put("folder", new Folder());

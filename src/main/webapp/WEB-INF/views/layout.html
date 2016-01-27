@@ -51,7 +51,13 @@
 							th:href="@{'/folders/' + ${folder.id}}" th:text="${folder.name}">Static folder</a>
 				</div>
 			</div>
-			<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 content" layout:fragment="content"></div>
+			<ol th:if="${breadcrumbs != null}" class="breadcrumb col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
+				<li th:each="crumb: ${breadcrumbs.crumbs}">
+					<a th:href="@{${crumb.url}}" th:text="${crumb.name}"></a>
+				</li>
+				<li class="active" th:text="${breadcrumbs.currentLocation}"></li>
+			</ol>
+			<div layout:fragment="content" class="content col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3"></div>
 		</div>
 	</div>
 	

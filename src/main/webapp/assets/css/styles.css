@@ -73,3 +73,7 @@ div.empty {
 input#amount {
 	width: 95px;
 }
+
+ol.breadcrumb {
+	margin-bottom: 0;
+}
