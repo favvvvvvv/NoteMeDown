@@ -34,8 +34,7 @@ public class Task {
 	
 	@Column(name = "date_finished")
 	private Date dateFinished;
-
-	@OrderBy("name ASC")
+	
 	@ManyToOne
 	@JoinColumn(name = "folder_id", referencedColumnName = "id")
 	private Folder parentFolder;
@@ -139,10 +138,6 @@ public class Task {
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + id;
-	}
-	
-	public String absolutePath() {
-		return parentFolder.absolutePath() + "/" + name;
 	}
 	
 	public Task postpone() {

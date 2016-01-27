@@ -21,20 +21,20 @@ public class Folder {
 	@Column(name = "is_root")
 	private Boolean isRoot;
 
-	@OrderBy("name ASC")
 	@ManyToOne
 	@JoinColumn(name = "folder_id", referencedColumnName = "id")
 	private Folder parentFolder;
 
-	@OrderBy("name ASC")
 	@ManyToOne
 	@JoinColumn(name = "group_id", referencedColumnName = "id")
 	private Group parentGroup;
-	
+
+	@OrderBy("name ASC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "parentFolder",
 			orphanRemoval = true)
 	private Set<Folder> subfolders = new HashSet<>();
-	
+
+	@OrderBy("name ASC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "parentFolder",
 			orphanRemoval = true)
 	private Set<Task> tasks = new HashSet<>();
@@ -128,10 +128,5 @@ public class Folder {
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + id;
-	}
-	
-	public String absolutePath() {
-		return (isRoot ? (parentGroup.absolutePath() + ":/")
-				: (parentFolder.absolutePath() + "/")) + name;
 	}
 }
