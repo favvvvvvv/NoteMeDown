@@ -129,4 +129,9 @@ public class Folder {
 	public String toString() {
 		return getClass().getSimpleName() + ": " + id;
 	}
+	
+	public String absolutePath() {
+		return (isRoot ? (parentGroup.absolutePath() + ":/")
+				: (parentFolder.absolutePath() + "/")) + name;
+	}
 }

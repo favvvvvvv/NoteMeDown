@@ -195,4 +195,8 @@ public class Task {
 			return null;
 		return (daysLeft < 0 ? -daysLeft + " days overdue" : daysLeft + " days left");
 	}
+	
+	public String absolutePath() {
+		return parentFolder.absolutePath() + "/" + name;
+	}
 }
