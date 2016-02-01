@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html layout:decorator="layout">
+<body>
+	<div layout:fragment="content">
+		<form th:action="@{/tasks/history}" method="GET" class="form-inline">
+			<label>Filter:</label>
+			<div class="checkbox">
+				<label>
+					<input type="radio" name="status" value="COMPLETED" checked="checked" />
+					 Completed (<span class="glyphicon glyphicon-ok"></span>)
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="radio" name="status" value="POSTPONED" />
+					 Postponed (<span class="glyphicon glyphicon-pause"></span>)
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="radio" name="status" value="FAILED" />
+					 Failed (<span class="glyphicon glyphicon-remove"></span>)
+				</label>
+			</div>
+			
+			<div class="form-group">
+				<button type="submit" class="btn btn-default">Apply</button>
+			</div>
+		</form>
+		
+		<div class="empty" th:if="${#lists.isEmpty(tasks)}">No match found</div>
+		
+		<table class="table table-striped table-hover" th:unless="${#lists.isEmpty(tasks)}">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Task name</th>
+					<th>Path</th>
+					<th>Date</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="task: ${tasks}" class="data-holder"
+						th:attr="id=${task.id},data-name=${task.name},data-description=${task.description},
+								data-status=${task.status},data-duedate=${task.dueDate},data-duedateinfo=${task.dueDateInfo()},
+								data-datepostponed=${task.datePostponed},data-datefinished=${task.dateFinished}">
+					<td class="col-icon">
+						<span th:if="${task.status.name()} == 'COMPLETED'" class="glyphicon glyphicon-ok"></span>
+						<span th:if="${task.status.name()} == 'POSTPONED'" class="glyphicon glyphicon-pause"></span>
+						<span th:if="${task.status.name()} == 'FAILED'" class="glyphicon glyphicon-remove"></span>
+					</td>
+					<td><button th:text="${task.name}" type="button" class="btn btn-link" data-toggle="modal"
+							th:attr="data-id=${task.id}" data-target="#displayTaskModal">Static task</button></td>
+					<td class="col-path">
+						<span th:text="${task.parentFolder.absolutePath()}">Static path</span>
+					</td>
+					<td class="col-date">
+						<span th:if="${task.status.name()} == 'POSTPONED'" th:text="${task.datePostponed}">Static date</span>
+						<span th:unless="${task.status.name()} == 'POSTPONED'" th:text="${task.dateFinished}">Static date</span>
+					</td>
+					<td class="col-actions">
+						<button th:if="${task.status.name()} == 'POSTPONED'" type="button" class="btn btn-default btn-xs" data-toggle="modal"
+								data-target="#continueTaskModal" th:attr="data-id=${task.id},data-name=${task.name},data-duedate=${task.suggestedDueDate()}">
+							<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+						</button>
+						<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteTaskModal"
+								th:attr="data-id=${task.id},data-name=${task.name}">
+							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+	
+	<div layout:fragment="modal">
+	
+		<div class="modal fade" id="deleteTaskModal" tabindex="-1" role="dialog" aria-labelledby="deleteTaskModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="deleteTaskModalLabel">Delete Task</h4>
+					</div>
+					<div class="modal-body">
+						<span id="taskConfirmation">
+							Are you sure you want to delete this task (<span class="task-name"></span>)?
+						</span>
+					</div>
+					<div class="modal-footer">
+						<form id="deleteTaskForm" class="form-inline" method="POST" th:action="@{/tasks/00/delete}">
+							<button type="submit" class="btn btn-primary">Yes</button>
+							<button type="button" id="taskNo" class="btn btn-default" data-dismiss="modal">No</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="continueTaskModal" tabindex="-1" role="dialog" aria-labelledby="continueTaskModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="continueTaskModalLabel">Continue Task</h4>
+					</div>
+					<div class="modal-body">
+						<span id="taskConfirmation">
+							Choose new due date for the task (<span class="task-name"></span>).
+						</span>
+						<form id="continueTaskForm" class="form-inline" method="POST" th:action="@{/tasks/00/continue}">
+							<div class="form-group">
+								<label for="dueDate">Due date:</label>
+								<input id="dueDate" class="form-control" type="text"
+										name="dueDate" placeholder="New due date" />
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" form="continueTaskForm" class="btn btn-primary">Continue</button>
+						<button type="button" id="taskNo" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<th:block th:replace="fragments/modals :: displayTask"></th:block>
+		
+	</div>
+	
+	<th:block layout:fragment="custom-scripts">
+		<script th:src="@{/assets/js/task-bs-modals.js}"></script>
+		<script th:src="@{/assets/js/display-task-bs-modals.js}"></script>
+		<script>
+		    $('#dueDate').datepicker({
+		        autoclose: true,
+		        todayHighlight: true,
+		        format: "yyyy-mm-dd"
+		    });
+	    </script>
+	</th:block>
+</body>
+</html>

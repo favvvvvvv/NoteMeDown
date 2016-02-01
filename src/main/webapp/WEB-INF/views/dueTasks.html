@@ -2,7 +2,6 @@
 <html layout:decorator="layout">
 <body>
 	<div layout:fragment="content">
-		<div class="empty" th:if="${#lists.isEmpty(tasks)}">You have no Due Tasks</div>
 		<form th:action="@{/tasks/due}" method="GET" class="form-inline">
 			<div class="form-group">
 				<label for="amount">Filter:</label>
@@ -20,6 +19,8 @@
 				<button type="submit" class="btn btn-default">Apply</button>
 			</div>
 		</form>
+		
+		<div class="empty" th:if="${#lists.isEmpty(tasks)}">You have no Due Tasks</div>
 		
 		<th:block th:replace="fragments/tables :: task"></th:block>
 		

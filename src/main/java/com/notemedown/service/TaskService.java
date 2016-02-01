@@ -83,17 +83,9 @@ public class TaskService {
 	}
 	
 	@Transactional
-	public void continue_(Long id) {
+	public void continue_(Long id, Date dueDate) {
 		Task task = dao.get(id);
-		task.continue_(null);
-	}
-	
-	@Transactional
-	public void continue_(Long id, LocalDate dueDate) {
-		if (dueDate == null)
-			throw new NullPointerException("New due date is null");
-		Task task = dao.get(id);
-		task.continue_(Date.valueOf(dueDate));
+		task.continue_(dueDate);
 	}
 	
 	@Transactional

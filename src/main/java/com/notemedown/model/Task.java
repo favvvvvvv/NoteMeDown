@@ -199,4 +199,15 @@ public class Task {
 	public String absolutePath() {
 		return parentFolder.absolutePath() + "/" + name;
 	}
+	
+	public Date suggestedDueDate() {
+		if (dueDate == null || datePostponed == null)
+			return null;
+		LocalDate dueDate = this.dueDate.toLocalDate();
+		LocalDate datePostponed = this.datePostponed.toLocalDate();
+		long daysBetween = datePostponed.until(dueDate, ChronoUnit.DAYS);
+		if (daysBetween <= 0)
+			return null;
+		return Date.valueOf(LocalDate.now().plus(daysBetween, ChronoUnit.DAYS));
+	}
 }

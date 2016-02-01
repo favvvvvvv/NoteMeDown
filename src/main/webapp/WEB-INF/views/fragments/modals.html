@@ -118,6 +118,27 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="modal fade" id="stateChangeTaskModal" tabindex="-1" role="dialog" aria-labelledby="stateChangeTaskModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="stateChangeTaskModalLabel"><span class="mode"></span> Task</h4>
+					</div>
+					<div class="modal-body">
+						<span id="taskConfirmation">
+							Are you sure you want to <span class="mode"></span> this task (<span class="task-name"></span>)?
+						</span>
+					</div>
+					<div class="modal-footer">
+						<form id="stateChangeTaskForm" class="form-inline" method="POST" th:action="@{/tasks/00/mode}">
+							<button type="submit" class="btn btn-primary">Yes</button>
+							<button type="button" id="taskNo" class="btn btn-default" data-dismiss="modal">No</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	
 	</th:block>
 	

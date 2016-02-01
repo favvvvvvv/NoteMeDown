@@ -1,5 +1,8 @@
 package com.notemedown.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +78,17 @@ public class MainController {
 		model.put("task", new Task());
 		model.put("tasks", taskService.getByDaysLeft(unit, amount));
 		return "dueTasks";
+	}
+	
+	@RequestMapping(path = "/tasks/history", method=RequestMethod.GET)
+	public String taskHistory(@RequestParam(name = "status") String status, ModelMap model) {
+		List<Task> tasks = taskService.getByStatus(Status.valueOf(status));
+		tasks.sort((o1, o2) -> {
+			return o1.getParentFolder().absolutePath().compareToIgnoreCase(
+						o2.getParentFolder().absolutePath());
+		});
+		model.put("tasks", tasks);
+		
+		return "history";
 	}
 }

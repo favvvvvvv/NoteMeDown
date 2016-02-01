@@ -50,6 +50,7 @@ public class TaskDAO extends HibernateDaoSupport {
 	public List<Task> getByDaysLeft(Date boundary) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Task.class)
 				.add(Restrictions.le("dueDate", boundary))
+				.add(Restrictions.eq("status", Status.IN_PROGRESS))
 				.addOrder(Order.asc("dueDate"));
 		return (List<Task>) getHibernateTemplate().findByCriteria(criteria);
 	}

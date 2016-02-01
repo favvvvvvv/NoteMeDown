@@ -24,15 +24,17 @@ body {
 }
 
 .col-icon,
+.col-path,
+.col-date,
 .col-duedate,
 .col-actions {
 	width: 1%;
 	white-space: nowrap;
 }
 
-.col-duedate {
-	width: 200px;
-}
+/*.col-duedate {
+	width: 100px;
+}*/
 
 td button.btn-link {
 	text-align: left;

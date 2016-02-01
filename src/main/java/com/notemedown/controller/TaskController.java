@@ -49,15 +49,36 @@ public class TaskController {
 			@RequestParam("folderId") Long folderId, ModelMap model) {
 		task.setId(id);
 		taskService.update(task, folderId);
-		String referer = request.getHeader("Referer");
-		return "redirect:" + referer;
+		return "redirect:" + request.getHeader("Referer");
 	}
 	
 	@RequestMapping(path = "/{id}/delete", method = RequestMethod.POST)
-	public String deleteTask(@PathVariable("id") Long id, ModelMap model) {
-		Task task = taskService.get(id);
-		String parentUrl = "folders/" + task.getParentFolder().getId();
-		taskService.delete(task);
-		return "redirect:/" + parentUrl;
+	public String deleteTask(@PathVariable("id") Long id, HttpServletRequest request) {
+		taskService.delete(id);
+		return "redirect:" + request.getHeader("Referer");
+	}
+	
+	@RequestMapping(path = "/{id}/complete", method = RequestMethod.POST)
+	public String complete(@PathVariable("id") Long id, HttpServletRequest request) {
+		taskService.complete(id);
+		return "redirect:" + request.getHeader("Referer");
+	}
+	
+	@RequestMapping(path = "/{id}/continue", method = RequestMethod.POST)
+	public String continue_(@PathVariable("id") Long id, @RequestParam("dueDate") Date dueDate, HttpServletRequest request) {
+		taskService.continue_(id, dueDate);
+		return "redirect:" + request.getHeader("Referer");
+	}
+
+	@RequestMapping(path = "/{id}/postpone", method = RequestMethod.POST)
+	public String postpone(@PathVariable("id") Long id, HttpServletRequest request) {
+		taskService.postpone(id);
+		return "redirect:" + request.getHeader("Referer");
+	}
+
+	@RequestMapping(path = "/{id}/fail", method = RequestMethod.POST)
+	public String fail(@PathVariable("id") Long id, HttpServletRequest request) {
+		taskService.fail(id);
+		return "redirect:" + request.getHeader("Referer");
 	}
 }

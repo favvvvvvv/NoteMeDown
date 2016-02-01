@@ -71,3 +71,53 @@ $('#deleteTaskModal').on('show.bs.modal', function (event) {
 	var name = button.data('name')
 	taskName.text(name)
 })
+
+$('#stateChangeTaskModal').on('shown.bs.modal', function () {
+	$('#taskNo').focus()
+})
+
+$('#stateChangeTaskModal').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget)
+	var modal = $(this)
+	
+	var mode = button.data('mode')
+	modal.find('#stateChangeTaskModalLabel span.mode').text(mode)
+	
+	modal.find('#taskConfirmation span.mode').text(mode.toLowerCase())
+	
+	var stateChangeForm = modal.find('#stateChangeTaskForm')
+	var id = button.data('id')
+	var action = stateChangeForm.attr('action')
+	stateChangeForm.attr('action', action.replace(/\d+\/\w+/, id + '/' + mode.toLowerCase()))
+	
+	var taskName = modal.find('#taskConfirmation .task-name')
+	var name = button.data('name')
+	taskName.text(name)
+})
+
+
+
+$('#continueTaskModal').on('shown.bs.modal', function () {
+	$('#taskNo').focus()
+})
+
+$('#continueTaskModal').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget)
+	console.log(button)
+	if (button[0].tagName == 'BUTTON') { // event not caused by Bootstrap Datepicker
+		var button = $(event.relatedTarget)
+		var modal = $(this)
+		
+		var continueForm = modal.find('#continueTaskForm')
+		var id = button.data('id')
+		var action = continueForm.attr('action')
+		continueForm.attr('action', action.replace(/\d+/, id))
+		
+		var taskName = modal.find('#taskConfirmation .task-name')
+		var name = button.data('name')
+		taskName.text(name)
+		
+		var dueDate = button.data('duedate')
+		modal.find('#dueDate').val(dueDate)
+	}
+})
