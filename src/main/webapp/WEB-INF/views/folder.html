@@ -41,39 +41,8 @@
 			New task
 		</button>
 		<div class="empty" th:if="${#lists.isEmpty(subfolders) and #lists.isEmpty(tasks)}">Empty folder</div>
-		<table class="table table-striped table-hover" th:unless="${#lists.isEmpty(tasks)}">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Task name</th>
-					<th>Due date</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="task: ${tasks}" class="data-holder" th:classappend="${task.isOverdue()} ? 'danger' : ''"
-						th:attr="id=${task.id},data-name=${task.name},data-description=${task.description},
-								data-status=${task.status},data-duedate=${task.dueDate},data-duedateinfo=${task.dueDateInfo()},
-								data-datepostponed=${task.datePostponed},data-datefinished=${task.dateFinished}">
-					<td class="col-icon"><span class="glyphicon glyphicon-play"></span></td>
-					<td><button th:text="${task.name}" type="button" class="btn btn-link" data-toggle="modal"
-							th:attr="data-id=${task.id}" data-target="#displayTaskModal">Static task</button></td>
-					<td class="col-duedate">
-						<span th:unless="${task.dueDate} == null" th:text="${task.dueDate} + ' (' + ${task.dueDateInfo()} + ')'">Static due date</span>
-					</td>
-					<td class="col-actions">
-						<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addEditTaskModal"
-								th:attr="data-id=${task.id},data-folderid=${folderId}" data-mode="edit">
-							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-						</button>
-						<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteTaskModal"
-								th:attr="data-id=${task.id},data-name=${task.name}">
-							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-						</button>						
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		
+		<th:block th:replace="fragments/tables :: task"></th:block>
 		
 	</div>
 	

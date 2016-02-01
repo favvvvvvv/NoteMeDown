@@ -73,7 +73,7 @@ public class MainController {
 	public String dueTasks(@RequestParam(name = "unit", defaultValue = "WEEKS") String unit,
 			@RequestParam(name = "amount", defaultValue = "1") Integer amount, ModelMap model) {
 		model.put("task", new Task());
-		model.put("dueTasks", taskService.getByDaysLeft(unit, amount));
+		model.put("tasks", taskService.getByDaysLeft(unit, amount));
 		return "dueTasks";
 	}
 }
